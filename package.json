@@ -1,0 +1,14 @@
+{
+    "name": "studio-custom-ui-poc",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Proof of concept: CHILI GraFx Studio UI embedded in a page with custom toolbar buttons and a white/yellow theme.",
+    "type": "module",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "engines": {
+        "node": ">=18"
+    },
+    "license": "UNLICENSED"
+}

@@ -1,0 +1,12 @@
+{
+    "environment": "<ENVIRONMENT NAME, e.g. cp-abc-123>",
+    "clientId": "<INTEGRATION CLIENT ID>",
+    "clientSecret": "<INTEGRATION CLIENT SECRET>",
+
+    "projectId": "<PROJECT ID, or leave empty and set templateId>",
+    "templateId": "",
+
+    "projectName": "Studio Custom UI POC",
+    "studioUiVersion": "latest",
+    "port": 3000
+}
