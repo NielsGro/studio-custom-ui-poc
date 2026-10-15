@@ -1,9 +1,18 @@
+/* Theme colours are CSS variables, set from public/theme.js. These are the fallbacks (default theme). */
 :root {
-    --poc-yellow: #ffd200;
-    --poc-yellow-dark: #e6b800;
-    --poc-yellow-soft: #fff1a8;
+    --poc-font: Roboto, 'Segoe UI', system-ui, -apple-system, sans-serif;
     --poc-text: #1a1a1a;
     --poc-border: #d9d9d9;
+    --poc-navbar-bg: #ffffff;
+    --poc-navbar-border: #fff1a8;
+    --poc-button-bg: #ffffff;
+    --poc-button-text: #1a1a1a;
+    --poc-button-border: #e6b800;
+    --poc-button-hover-bg: #fff1a8;
+    --poc-button-hover-text: #1a1a1a;
+    --poc-accent: #ffd200;
+    --poc-accent-strong: #e6b800;
+    --poc-accent-soft: #fff1a8;
 }
 
 html,
@@ -12,12 +21,36 @@ body {
     margin: 0;
     background: #ffffff;
     color: var(--poc-text);
-    font-family: Roboto, 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: var(--poc-font);
 }
 
 #studio-ui-container {
     height: 100vh;
     width: 100vw;
+}
+
+/* ---- Studio UI top bar: themed background (Studio UI itself uses the panel colour) ---- */
+
+#studio-ui-container nav[data-id*='navbar'] {
+    background-color: var(--poc-navbar-bg);
+    border-bottom-color: var(--poc-navbar-border);
+}
+
+/* ---- Logo (optional, set "logoUrl" in config.json) ---- */
+
+.poc-logo {
+    display: flex;
+    align-items: center;
+    height: 2.25rem;
+    margin-inline-end: 0.75rem;
+}
+
+.poc-logo img {
+    display: block;
+    height: 100%;
+    width: auto;
+    max-width: 10rem;
+    object-fit: contain;
 }
 
 /* ---- Custom toolbar buttons injected into the Studio UI navbar ---- */
@@ -35,24 +68,27 @@ body {
     gap: 0.4rem;
     height: 2.25rem;
     padding: 0 0.85rem;
-    border: 1px solid var(--poc-yellow-dark);
+    border: 1px solid var(--poc-button-border);
     border-radius: 0.25rem;
-    background: #ffffff;
-    color: var(--poc-text);
+    background: var(--poc-button-bg);
+    color: var(--poc-button-text);
     font: inherit;
     font-size: 0.875rem;
-    font-weight: 500;
+    font-weight: 600;
     white-space: nowrap;
     cursor: pointer;
-    transition: background-color 120ms ease;
+    transition:
+        background-color 120ms ease,
+        color 120ms ease;
 }
 
 .poc-toolbar__button:hover:not(:disabled) {
-    background: var(--poc-yellow-soft);
+    background: var(--poc-button-hover-bg);
+    color: var(--poc-button-hover-text);
 }
 
 .poc-toolbar__button:focus-visible {
-    outline: 2px solid var(--poc-yellow-dark);
+    outline: 2px solid var(--poc-accent-strong);
     outline-offset: 2px;
 }
 
@@ -95,7 +131,8 @@ body {
 }
 
 .poc-dropdown--open > .poc-toolbar__button {
-    background: var(--poc-yellow-soft);
+    background: var(--poc-button-hover-bg);
+    color: var(--poc-button-hover-text);
 }
 
 .poc-dropdown__menu {
@@ -105,7 +142,7 @@ body {
     min-width: 100%;
     padding: 0.25rem;
     border: 1px solid var(--poc-border);
-    border-top: 3px solid var(--poc-yellow);
+    border-top: 3px solid var(--poc-accent);
     border-radius: 0.25rem;
     background: #ffffff;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
@@ -146,7 +183,7 @@ body {
 
 .poc-dropdown__item:hover:not(:disabled),
 .poc-dropdown__item:focus-visible {
-    background: var(--poc-yellow-soft);
+    background: var(--poc-accent-soft);
     outline: none;
 }
 
@@ -170,7 +207,7 @@ body {
     transform: translate(-50%, 1rem);
     max-width: calc(100vw - 2rem);
     padding: 0.65rem 1rem;
-    border-left: 4px solid var(--poc-yellow);
+    border-left: 4px solid var(--poc-accent);
     border-radius: 0.25rem;
     background: var(--poc-text);
     color: #ffffff;
@@ -199,7 +236,7 @@ body {
     max-width: 40rem;
     margin: 4rem auto;
     padding: 1.5rem 2rem;
-    border-top: 6px solid var(--poc-yellow);
+    border-top: 6px solid var(--poc-accent);
     border-radius: 0.25rem;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }

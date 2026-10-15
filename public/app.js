@@ -1,4 +1,4 @@
-import { theme } from './theme.js';
+import { applyPageTheme } from './theme.js';
 import { mountToolbar } from './toolbar.js';
 import { createFrame, insertImageVariable, insertTextVariable, trackEditMode } from './actions.js';
 
@@ -76,6 +76,8 @@ async function loadStudioUI(version) {
 
 async function start() {
     const session = await fetchSession();
+    const theme = applyPageTheme(session.theme);
+    if (session.pageTitle) document.title = session.pageTitle;
     const StudioUI = await loadStudioUI(session.studioUiVersion);
     window.StudioUI = StudioUI;
 
@@ -118,7 +120,7 @@ async function start() {
                 },
             ],
         },
-    ]);
+    ], { logoUrl: session.logoUrl, logoAlt: session.pageTitle || 'Logo' });
 
     /**
      * Saves the document and mounts Studio UI again with it, then selects `frameId`.
@@ -171,7 +173,7 @@ async function start() {
             },
             uiOptions: {
                 uiTheme: 'light',
-                theme,
+                theme: theme.studio,
             },
             onProjectLoaded: () => {
                 trackEditMode();

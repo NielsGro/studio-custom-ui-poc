@@ -7,7 +7,7 @@ Embeds CHILI GraFx **Studio UI** in a web page and customises it:
   - **Insert Variable** (dropdown, opens on hover):
     - **Text Variable**: creates a short text variable and inserts it into the selected text frame.
     - **Image Variable**: creates a "user upload" image variable on GraFx Media and links it to the selected image frame (or to a new image frame). The end user can then upload their own image.
-- **White & yellow colour theme** for the whole Studio UI.
+- **Themes**: a white & yellow default theme and a DHL theme (DHL yellow and red), switchable in `config.json`, with an optional logo in the toolbar.
 - **Automatic authentication**: the local server gets a token with the OAuth client-credentials flow.
 - **One config file** for the environment, the client credentials and the project.
 
@@ -40,6 +40,9 @@ No build step and no npm dependencies. You only need Node.js 18 or newer.
 | `templateId`            | one of   | Used when `projectId` is empty: on first start, the POC creates a project from this template and saves its ID as `projectId`. |
 | `projectName`           | no       | Display name, also used as the name of a project created from `templateId`. Default: `Studio Custom UI POC`.      |
 | `studioUiVersion`       | no       | Studio UI version on the CDN, e.g. `latest` or a pinned version. Default: `latest`.                               |
+| `theme`                 | no       | `default` (white & yellow) or `dhl`. Themes are defined in `public/theme.js`.                                     |
+| `logoUrl`               | no       | Logo shown at the left of the toolbar, e.g. `/brand/dhl-logo.svg` (a file in `public/brand/`) or a full URL. Hidden when empty or missing. |
+| `pageTitle`             | no       | Browser tab title, e.g. `DHL – Studio POC`.                                                                       |
 | `tokenUrl`              | no       | OAuth token URL. Default: `https://integration-login.chiligrafx.com/oauth/token`.                                 |
 | `audience`              | no       | OAuth audience. Default: `https://chiligrafx.com`.                                                                |
 | `environmentApiBaseUrl` | no       | Overrides the derived API URL `https://<environment>.chili-publish.online/grafx/api/v1/environment/<environment>`. |
@@ -55,7 +58,8 @@ The server reads `config.json` on every request, so changes apply without a rest
 public/
   index.html   page with the container div Studio UI renders into
   app.js       loads Studio UI from the CDN and starts it with the session, theme and toolbar
-  theme.js     white & yellow theme (Studio UI `uiOptions.theme`)
+  theme.js     themes: Studio UI colours (`uiOptions.theme`) and CSS variables for the POC's own elements
+  brand/       logo files (git-ignored, except its README)
   toolbar.js   injects the custom buttons and the dropdown into Studio UI's navbar
   actions.js   button logic, using the Studio SDK
   styles.css   styling for the custom buttons, dropdown, toast and error screen
@@ -77,7 +81,9 @@ Tokens are cached on the server and renewed 5 minutes before they expire.
 ### Studio UI customisation
 
 - **Studio UI** is loaded as an ES module from `https://studio-cdn.chiligrafx.com/studio-ui/<version>/es-module/bundle.js` and started with `StudioUI.studioUILoaderConfig(...)`.
-- **Theme**: passed as `uiOptions.theme` with `uiTheme: 'light'`. Edit `public/theme.js` to change the colours.
+- **Theme**: each theme in `public/theme.js` has Studio UI colours, passed as `uiOptions.theme` with `uiTheme: 'light'`, and CSS variables for the top bar, custom buttons, dropdown and toast. Studio UI's top bar uses its panel colour, so the POC overrides its background with CSS to get e.g. the DHL-yellow bar. To add a theme, add an entry to `themes` and set its name in `config.json`.
+- **DHL theme**: DHL yellow `#FFCC00` top bar, DHL red `#D40511` for primary and custom buttons, neutral grey canvas. DHL's typeface ("Delivery") is licensed; the page uses it when it's installed and falls back to Arial/Helvetica.
+- **Logo**: brand logos are trademarks, so none is included. Put the official file in `public/brand/` and set `logoUrl`. That folder is git-ignored.
 - **Toolbar buttons**: Studio UI has no public API for adding toolbar items yet. The POC prepends an extra `<li>` to Studio's navbar (`nav[data-id="sui-navbar"] > ul`), and a `MutationObserver` re-adds it whenever Studio re-renders the navbar. The buttons stay disabled until `onProjectLoaded` fires. The Insert Variable dropdown opens on hover, on keyboard focus and on click (for touch screens).
 - **Actions** use the SDK instance that Studio UI exposes as `window.StudioUISDK`:
   - Create Frame: `frame.create('text', …)` inside `undoManager.record`, `frame.rename`, `experiment.setText`. It then sets the frame constraints (`selectable`, `textEditingAllowed`, movement, resize) so end users can interact with the frame, and finally `tool.setSelect` and `frame.select`.

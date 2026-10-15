@@ -36,9 +36,10 @@ function makeButton(className, { label, icon }) {
  *
  * @param {HTMLElement} container element Studio UI is rendered into
  * @param {ToolbarEntry[]} entries plain buttons, or buttons with `items` that open a dropdown menu on hover
+ * @param {{ logoUrl?: string, logoAlt?: string }} [options] optional logo shown before the buttons
  * @returns {{ setEnabled: (enabled: boolean) => void }}
  */
-export function mountToolbar(container, entries) {
+export function mountToolbar(container, entries, { logoUrl, logoAlt = '' } = {}) {
     let enabled = false;
     let busy = false;
     const controls = [];
@@ -47,6 +48,18 @@ export function mountToolbar(container, entries) {
     item.id = TOOLBAR_ID;
     item.className = 'poc-toolbar';
     item.setAttribute('aria-label', 'Custom actions');
+
+    if (logoUrl) {
+        const logo = document.createElement('div');
+        logo.className = 'poc-logo';
+        const img = document.createElement('img');
+        img.src = logoUrl;
+        img.alt = logoAlt;
+        // A missing logo file shouldn't leave a broken-image icon in the toolbar.
+        img.addEventListener('error', () => logo.remove());
+        logo.appendChild(img);
+        item.appendChild(logo);
+    }
 
     const refresh = () => controls.forEach((el) => (el.disabled = !enabled || busy));
 

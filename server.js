@@ -60,6 +60,9 @@ function loadConfig() {
         templateId: isSet(raw.templateId) ? String(raw.templateId).trim() : null,
         projectName: raw.projectName || 'Studio Custom UI POC',
         studioUiVersion: raw.studioUiVersion || 'latest',
+        theme: raw.theme || 'default',
+        logoUrl: raw.logoUrl || '',
+        pageTitle: raw.pageTitle || '',
         tokenUrl: raw.tokenUrl || DEFAULT_TOKEN_URL,
         audience: raw.audience || DEFAULT_AUDIENCE,
         environmentApiBaseUrl:
@@ -192,6 +195,9 @@ const routes = {
             projectId,
             projectName: config.projectName,
             studioUiVersion: config.studioUiVersion,
+            theme: config.theme,
+            logoUrl: config.logoUrl,
+            pageTitle: config.pageTitle,
             accessToken,
             expiresAt,
         };

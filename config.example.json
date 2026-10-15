@@ -8,5 +8,9 @@
 
     "projectName": "Studio Custom UI POC",
     "studioUiVersion": "latest",
+
+    "theme": "default",
+    "logoUrl": "",
+    "pageTitle": "",
     "port": 3000
 }

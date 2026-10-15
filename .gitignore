@@ -3,3 +3,7 @@ config.json
 
 node_modules/
 .DS_Store
+
+# Brand logos are trademarks: keep them local (see public/brand/README.md).
+public/brand/*
+!public/brand/README.md
